@@ -6,10 +6,14 @@ from callbacks import pagination
 from config_reader import TOKEN
 from handlers import bot_messages, user_commands, questionaire
 
+from middlewares.check_sub import CheckSubscription
+
 
 async def main():
     bot = Bot(TOKEN, parse_mode="HTML")
     dp = Dispatcher()
+
+    dp.message.middleware(CheckSubscription())
 
     dp.include_routers(
         user_commands.router,
